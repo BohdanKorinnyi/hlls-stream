@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stream HLS</title>
+    <link href="https://cdn.jsdelivr.net/npm/video.js@6.6.2/dist/video-js.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vue-video-player@5.0.0/src/custom-theme.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.6.2/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-video-player@5.0.0/dist/vue-video-player.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-flash@2/dist/videojs-flash.min.js"></script>
+    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+</head>
+<body>
+
+<div id="vueapp">
+    <video-player class="vjs-custom-skin" ref="videoPlayer" :options="playerOptions" @ready="playerReadied">
+    </video-player>
+    <input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"
+           placeholder="Input stream link here..." v-model="link">
+    <input type="button" value="Apply" style="border: solid 1px black; font-size: 20px" v-on:click="apply">
+</div>
+</body>
+<script>
+    Vue.use(VueVideoPlayer)
+    new Vue({
+        el: '#vueapp',
+        props: ['link'],
+        data() {
+            return {
+                link: this.link,
+                playerOptions: {
+                    height: '900',
+                    muted: true,
+                    sources: [{
+                        withCredentials: false,
+                        type: "application/x-mpegURL",
+                        src: "http://playertest.longtailvideo.com/adaptive/captions/playlist.m3u8"
+                        // src: "https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8"
+                        // src: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+                    }],
+                    controlBar: {
+                        timeDivider: false,
+                        durationDisplay: false
+                    },
+                    flash: {hls: {withCredentials: false}},
+                    html5: {hls: {withCredentials: false}},
+                    poster: "https://lh3.googleusercontent.com/proxy/eQs74M71P2Uvoss53q4OudgoDidwPM-armaB6DYN3XQmI79s0-95Wb_Q3dml5qeMnXgHrCUSozCSKuXhaqh3V2KqZInhDTXzJU0rVqvBCqs7GaRk_PjoO1OaJxILofX6lw"
+                }
+            }
+        },
+        computed: {
+            player() {
+                return this.$refs.videoPlayer.player
+            }
+        },
+        methods: {
+            playerReadied(player) {
+                var hls = player.tech({IWillNotUseThisInPlugins: true}).hls
+                player.tech_.hls.xhr.beforeRequest = function (options) {
+                    return options
+                }
+            },
+            apply() {
+                // this.playerOptions.sources[0].src = this.lin k;
+                // this.$set(this.playerOptions.sources, 0, {
+                //     type: "application/x-mpegURL",
+                //     src: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+                // })
+                this.playerOptions.muted(true)
+            }
+        }
+    })
+</script>
+</html>
