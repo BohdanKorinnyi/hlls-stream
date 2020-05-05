@@ -1,26 +1,72 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <meta charset=utf-8/>
-    <title>Stream HLS</title>
-    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
-    <script src="https://unpkg.com/video.js/dist/video.js"></script>
-    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
-</head>
-<body style="text-align: center">
 
-<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'
-       style="width: 100%; height: 800px">
-    <source src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8" type="application/x-mpegURL">
-</video>
-<input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"
-       placeholder="Input stream link here..." id="url">
-<input type="button" value="Apply" style="border: solid 1px black; font-size: 20px" id="set_url">
+<head>
+    <title>streaming test</title>
+</head>
+
+<body>
+<script src="https://hls-js.netlify.app/dist/hls.js"></script>
+
+<div style="text-align: center">
+    <video id="video" style="width: 90%" controls></video>
+    <input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"
+           placeholder="Input stream link here..." id="url">
+    <input type="button" value="Apply" style="border: solid 1px black; font-size: 20px" id="set_url">
+</div>
 <script>
+
+    if (Hls.isSupported()) {
+        var video = document.getElementById('video');
+        var hls = new Hls();
+        hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            video.play();
+        });
+    } else {
+        alert("HLS is not supported in your browser")
+    }
+
     let btn = document.getElementById('set_url');
     btn.addEventListener('click', function () {
-        videojs('#my_video_1').src({type: "application/x-mpegURL", src: document.getElementById('url').value});
+        var video = document.getElementById('video');
+        var hls = new Hls();
+        hls.loadSource(document.getElementById('url').value);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            video.play();
+        });
     }, false);
 </script>
 </body>
 </html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <meta charset=utf-8/>-->
+<!--    <title>Stream HLS</title>-->
+<!--    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">-->
+<!--    <script src="https://unpkg.com/video.js/dist/video.js"></script>-->
+<!--    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>-->
+<!--</head>-->
+<!--<body style="text-align: center">-->
+
+<!--<video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'-->
+<!--       style="width: 100%; height: 800px">-->
+<!--    <source src="https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8" type="application/x-mpegURL">-->
+<!--</video>-->
+<!--<input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"-->
+<!--       placeholder="Input stream link here..." id="url">-->
+<!--<input type="button" value="Apply" style="border: solid 1px black; font-size: 20px" id="set_url">-->
+<!--<script>-->
+<!--    let btn = document.getElementById('set_url');-->
+<!--    btn.addEventListener('click', function () {-->
+<!--        var player_hls = videojs('#my_video_1')-->
+<!--        player_hls.src({type: "application/x-mpegURL", src: document.getElementById('url').value, useCueTags: true});-->
+<!--    }, false);-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
