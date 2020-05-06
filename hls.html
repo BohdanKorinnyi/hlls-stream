@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>streaming test</title>
+</head>
+
+<body>
+<script src="https://hls-js.netlify.app/dist/hls.js"></script>
+
+<div style="text-align: center">
+    <video id="video" style="width: 90%" controls></video>
+    <input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"
+           placeholder="Input stream link here..." id="url">
+    <input type="button" value="Apply" style="border: solid 1px black; font-size: 20px" id="set_url">
+</div>
+<script>
+
+    if (Hls.isSupported()) {
+        var video = document.getElementById('video');
+        var hls = new Hls();
+        hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            video.play();
+        });
+    } else {
+        alert("HLS is not supported in your browser")
+    }
+
+    let btn = document.getElementById('set_url');
+    btn.addEventListener('click', function () {
+        var video = document.getElementById('video');
+        var hls = new Hls();
+        hls.loadSource(document.getElementById('url').value);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            video.play();
+        });
+    }, false);
+</script>
+</body>
+</html>
+
+
