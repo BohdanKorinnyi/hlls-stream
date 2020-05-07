@@ -12,6 +12,7 @@
     <input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"
            placeholder="Stream link" id="url">
     <input type="button" value="Apply" style="border: solid 1px #000000; font-size: 20px" id="set_url">
+    <input type="checkbox" id="highlightState"> Highlight Speaker
     <p id="subtitles"></p>
 </div>
 <script>
@@ -64,10 +65,8 @@
 
     window.setInterval(function () {
         var video = document.getElementById('video');
-        if (text != null) {
-            let foundText = null;
+        if (text.length !== 0 && document.getElementById('highlightState').checked) {
             let currentTime = parseFloat(video.currentTime);
-            let line = '';
             subtitles.innerText = '';
             let speakerTag = text[0].speakerTag;
             let speakerText = '';
@@ -85,6 +84,18 @@
             if (speakerText !== '') {
                 subtitles.innerHTML += '<p style="color: ' + colors[speakerTag] + '">' + speakerText + '</p>';
             }
+        } else if (text.length !== 0) {
+            let foundText = null;
+            let currentTime = parseFloat(video.currentTime);
+            let line = '';
+            subtitles.innerText = '';
+            for (let index = 0; index < text.length; index++) {
+                if (text[index].endTime <= currentTime) {
+                    foundText = text[index].word;
+                    line += ' ' + foundText;
+                }
+            }
+            subtitles.innerText = line;
         }
     }, 100)
 
