@@ -18,7 +18,8 @@
 
     let colors = {
         1: 'blue',
-        3: 'red'
+        3: 'red',
+        100: 'green'
     };
 
     var text = [];
@@ -37,7 +38,7 @@
                         startTime: parseFloat(words[wordIndex].startTime.replace('s', '')),
                         endTime: parseFloat(words[wordIndex].endTime.replace('s', '')),
                         word: words[wordIndex].word,
-                        speakerTag: words[wordIndex].speakerTag
+                        speakerTag: words[wordIndex].speakerTag === undefined ? 100 : words[wordIndex].speakerTag
                     });
                 }
             }
