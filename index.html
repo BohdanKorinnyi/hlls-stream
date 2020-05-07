@@ -23,20 +23,18 @@
         hls.attachMedia(video);
         loadJSON(function (json) {
             let results = JSON.parse(json).response.results;
-            for (let resultIndex = 0; resultIndex < results.length; resultIndex++) {
-                let alternatives = results[resultIndex].alternatives;
-                for (let alternativeIndex = 0; alternativeIndex < alternatives.length; alternativeIndex++) {
-                    let words = alternatives[alternativeIndex].words;
-                    for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
-                        text.push({
-                            startTime: parseFloat(words[wordIndex].startTime.replace('s', '')),
-                            endTime: parseFloat(words[wordIndex].endTime.replace('s', '')),
-                            word: words[wordIndex].word
-                        });
-                    }
+            let alternatives = results[results.length - 1].alternatives;
+            for (let alternativeIndex = 0; alternativeIndex < alternatives.length; alternativeIndex++) {
+                let words = alternatives[alternativeIndex].words;
+                for (let wordIndex = 0; wordIndex < words.length; wordIndex++) {
+                    text.push({
+                        startTime: parseFloat(words[wordIndex].startTime.replace('s', '')),
+                        endTime: parseFloat(words[wordIndex].endTime.replace('s', '')),
+                        word: words[wordIndex].word,
+                        speakerTag: words[wordIndex].speakerTag
+                    });
                 }
             }
-
         })
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
@@ -55,7 +53,6 @@
         });
     }, false);
 
-    let previousWordIndex = -1;
     let subtitles = document.getElementById('subtitles');
 
     window.setInterval(function () {
@@ -63,17 +60,15 @@
         if (text != null) {
             let foundText = null;
             let currentTime = parseFloat(video.currentTime);
+            let line = '';
+            subtitles.innerText = '';
             for (let index = 0; index < text.length; index++) {
-                if (text[index].startTime <= currentTime && text[index].endTime >= currentTime) {
+                if (text[index].endTime <= currentTime) {
                     foundText = text[index].word;
-                    if (previousWordIndex !== index) {
-                        console.log(video.currentTime + " " + foundText);
-                        subtitles.innerText += ' ' + foundText;
-                        previousWordIndex = index;
-                    }
-                    break;
+                    line += ' ' + foundText;
                 }
             }
+            subtitles.innerText = line;
         }
     }, 100)
 
