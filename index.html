@@ -11,10 +11,16 @@
     <video id="video" style="width: 70%" controls></video>
     <input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"
            placeholder="Stream link" id="url">
-    <input type="button" value="Apply" style="border: solid 1px black; font-size: 20px" id="set_url">
+    <input type="button" value="Apply" style="border: solid 1px #000000; font-size: 20px" id="set_url">
     <p id="subtitles"></p>
 </div>
 <script>
+
+    let colors = {
+        1: 'blue',
+        3: 'red'
+    };
+
     var text = [];
     if (Hls.isSupported()) {
         var video = document.getElementById('video');
@@ -62,13 +68,22 @@
             let currentTime = parseFloat(video.currentTime);
             let line = '';
             subtitles.innerText = '';
+            let speakerTag = text[0].speakerTag;
+            let speakerText = '';
             for (let index = 0; index < text.length; index++) {
                 if (text[index].endTime <= currentTime) {
-                    foundText = text[index].word;
-                    line += ' ' + foundText;
+                    if (speakerTag === text[index].speakerTag) {
+                        speakerText += text[index].word + ' ';
+                    } else {
+                        subtitles.innerHTML += '<p style="color: ' + colors[speakerTag] + '">' + speakerText + '</p>';
+                        speakerText = ''
+                    }
+                    speakerTag = text[index].speakerTag
                 }
             }
-            subtitles.innerText = line;
+            if (speakerText !== '') {
+                subtitles.innerHTML += '<p style="color: ' + colors[speakerTag] + '">' + speakerText + '</p>';
+            }
         }
     }, 100)
 
