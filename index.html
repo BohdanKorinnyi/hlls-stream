@@ -17,12 +17,36 @@
     <p id="subtitles" style="border-top: 1px solid grey"></p>
 </div>
 <div id="charts" style="border-top: 1px solid grey">
-    <div style="height: 300px; width: 533px">
-        <canvas id="myChart" style="height: 300px; width: 533px"></canvas>
+    <div style="height: 300px; width: 100%">
+        <canvas id="happy" style="height: 100%; width: 100%"></canvas>
+    </div>
+    <div style="height: 300px; width: 100%">
+        <canvas id="angry" style="height: 100%; width: 100%"></canvas>
+    </div>
+    <div style="height: 300px; width: 100%">
+        <canvas id="disgust" style="height: 100%; width: 100%"></canvas>
+    </div>
+    <div style="height: 300px; width: 100%">
+        <canvas id="fear" style="height: 100%; width: 100%"></canvas>
+    </div>
+    <div style="height: 300px; width: 100%">
+        <canvas id="sad" style="height: 100%; width: 100%"></canvas>
+    </div>
+    <div style="height: 300px; width: 100%">
+        <canvas id="surprise" style="height: 100%; width: 100%"></canvas>
+    </div>
+    <div style="height: 300px; width: 100%">
+        <canvas id="neutral" style="height: 100%; width: 100%"></canvas>
     </div>
 </div>
 <script>
-    let chart;
+    let happy;
+    let angry;
+    let disgust;
+    let fear;
+    let sad;
+    let surprise;
+    let neutral;
 
     let colors = {
         1: 'blue',
@@ -96,14 +120,39 @@
 
     window.setInterval(function () {
         let video = document.getElementById('video');
-        if (chart != null && emotions.length !== 0) {
+        if (emotions.length !== 0) {
             let currentTime = parseFloat(video.currentTime);
             for (let i = 0; i < emotions.length; i++) {
                 if (currentTime > emotions[i].ts && lastAddedTsToChart < emotions[i].ts) {
-                    chart.data.datasets[0].data.push(emotions[i].data.happy)
-                    chart.data.labels.push(emotions[i].original)
+                    happy.data.datasets[0].data.push(emotions[i].data.happy)
+                    happy.data.labels.push(emotions[i].original)
+
+                    angry.data.datasets[0].data.push(emotions[i].data.angry)
+                    angry.data.labels.push(emotions[i].original)
+
+                    disgust.data.datasets[0].data.push(emotions[i].data.disgust)
+                    disgust.data.labels.push(emotions[i].original)
+
+                    fear.data.datasets[0].data.push(emotions[i].data.disgust)
+                    fear.data.labels.push(emotions[i].original)
+
+                    sad.data.datasets[0].data.push(emotions[i].data.sad)
+                    sad.data.labels.push(emotions[i].original)
+
+                    surprise.data.datasets[0].data.push(emotions[i].data.surprise)
+                    surprise.data.labels.push(emotions[i].original)
+
+                    neutral.data.datasets[0].data.push(emotions[i].data.neutral)
+                    neutral.data.labels.push(emotions[i].original)
+
                     lastAddedTsToChart = emotions[i].ts
-                    chart.update()
+                    happy.update()
+                    angry.update()
+                    disgust.update()
+                    fear.update()
+                    sad.update()
+                    surprise.update()
+                    neutral.update()
                 }
             }
         }
@@ -157,32 +206,44 @@
         xobj.send(null);
     }
 
+    happy = createChart('happy', 'Happy', 'rgb(162,255,127)')
+    angry = createChart('angry', 'Angry', 'rgb(144,0,32)')
+    disgust = createChart('disgust', 'Disgust', 'rgb(238,133,6)')
+    fear = createChart('fear', 'Fear', 'rgb(182,180,180)')
+    sad = createChart('sad', 'Sad', 'rgb(59,0,118)')
+    surprise = createChart('surprise', 'Surprise', 'rgb(9,196,213)')
+    neutral = createChart('neutral', 'Neutral', 'rgb(215,23,206)')
 
-    let ctx = document.getElementById('myChart').getContext('2d');
-    chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
-
-        // The data for our dataset
-        data: {
-            labels: [],
-            datasets: [{
-                borderColor: 'rgb(255, 99, 132)',
-                data: []
-            }]
-        },
-
-        // Configuration options go here
-        options: {
-            title: {
-                display: true,
-                text: 'Happiness'
+    function createChart(id, name, color) {
+        let ctx = document.getElementById(id).getContext('2d');
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    borderColor: color,
+                    data: []
+                }]
             },
-            legend: {
-                display: false
+
+            options: {
+                title: {
+                    display: true,
+                    text: name
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
             }
-        }
-    });
+        });
+    }
 </script>
 </body>
 </html>
