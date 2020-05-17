@@ -4,41 +4,63 @@
     <title>Demo: Processing of HLS Stream</title>
     <script src="https://hls-js.netlify.app/dist/hls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
 
-<div style="text-align: center">
-    <video id="video" style="width: 50%" controls></video>
-    <input type="text" style="width: 50%; border: solid 1px black; margin-top: 5px; font-size: 20px"
-           placeholder="Stream link" id="url">
-    <input type="button" value="Apply" style="border: solid 1px #000000; font-size: 20px" id="set_url">
-    <input type="checkbox" id="highlightState"> Highlight Speaker
-    <p id="subtitles" style="border-top: 1px solid grey"></p>
+<div class="container" style="margin: 0; max-width: 100%">
+    <div class="row">
+        <div class="col-md-8">
+            <video id="video" style="width: 100%" controls></video>
+            <input type="text" style="width: 70%; border: solid 1px black; margin-top: 5px; font-size: 20px"
+                   placeholder="Stream link" id="url">
+            <input type="button" value="Apply" style="border: solid 1px #000000; font-size: 20px" id="set_url">
+            <input type="checkbox" id="highlightState"> Highlight Speaker
+        </div>
+        <div class="col-md-4">
+            <p id="subtitles"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div id="charts" style="width: 100%">
+            <div style="height: 250px; width: 14%; float: left">
+                <canvas id="happy" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 14%; float: left">
+                <canvas id="angry" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 14%; float: left">
+                <canvas id="disgust" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 14%; float: left">
+                <canvas id="fear" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 14%; float: left">
+                <canvas id="sad" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 14%; float: left">
+                <canvas id="surprise" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 14%; float: left">
+                <canvas id="neutral" style="height: 100%; width: 100%"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
-<div id="charts" style="border-top: 1px solid grey">
-    <div style="height: 300px; width: 100%">
-        <canvas id="happy" style="height: 100%; width: 100%"></canvas>
-    </div>
-    <div style="height: 300px; width: 100%">
-        <canvas id="angry" style="height: 100%; width: 100%"></canvas>
-    </div>
-    <div style="height: 300px; width: 100%">
-        <canvas id="disgust" style="height: 100%; width: 100%"></canvas>
-    </div>
-    <div style="height: 300px; width: 100%">
-        <canvas id="fear" style="height: 100%; width: 100%"></canvas>
-    </div>
-    <div style="height: 300px; width: 100%">
-        <canvas id="sad" style="height: 100%; width: 100%"></canvas>
-    </div>
-    <div style="height: 300px; width: 100%">
-        <canvas id="surprise" style="height: 100%; width: 100%"></canvas>
-    </div>
-    <div style="height: 300px; width: 100%">
-        <canvas id="neutral" style="height: 100%; width: 100%"></canvas>
-    </div>
-</div>
+
+</body>
+
 <script>
     let happy;
     let angry;
@@ -156,7 +178,7 @@
                 }
             }
         }
-    }, 300);
+    }, 250);
 
     window.setInterval(function () {
         let video = document.getElementById('video');
@@ -245,5 +267,4 @@
         });
     }
 </script>
-</body>
 </html>
