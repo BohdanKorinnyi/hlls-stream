@@ -145,8 +145,9 @@
         let video = document.getElementById('video');
         if (emotions.length !== 0) {
             let currentTime = parseFloat(video.currentTime);
+            let minTime = (currentTime - 20) > 0 ? currentTime - 20 : 0;
             for (let i = 0; i < emotions.length; i++) {
-                if (currentTime > emotions[i].ts && lastAddedTsToChart < emotions[i].ts) {
+                if (currentTime > emotions[i].ts && minTime < emotions[i].ts && lastAddedTsToChart < emotions[i].ts) {
                     happy.data.datasets[0].data.push(emotions[i].data.happy)
                     happy.data.labels.push(emotions[i].original)
 
@@ -179,7 +180,7 @@
                 }
             }
         }
-    }, 250);
+    }, 300);
 
     window.setInterval(function () {
         let video = document.getElementById('video');
