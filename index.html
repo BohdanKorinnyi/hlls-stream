@@ -21,14 +21,14 @@
 
 <div class="container" style="margin: 0; max-width: 100%">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8" id="video-div">
             <video id="video" style="width: 100%" controls></video>
             <input type="text" style="width: 70%; border: solid 1px black; margin-top: 5px; font-size: 20px"
                    placeholder="Stream link" id="url">
             <input type="button" value="Apply" style="border: solid 1px #000000; font-size: 20px" id="set_url">
             <input type="checkbox" id="highlightState"> Highlight Speaker
         </div>
-        <div class="col-md-4">
+        <div id="subtitles-div" class="col-md-4" style="overflow-y: auto;">
             <p id="subtitles"></p>
         </div>
     </div>
@@ -81,6 +81,7 @@
 
     if (Hls.isSupported()) {
         var video = document.getElementById('video');
+        document.getElementById('subtitles-div').style.maxHeight = document.getElementById('video-div').clientHeight + 'px';
         var hls = new Hls();
         hls.loadSource('https://storage.googleapis.com/otopia_audio/conanZoom/ConanZoom.m3u8');
         hls.attachMedia(video);
