@@ -120,13 +120,13 @@
                     }
 
                     let counter = {
-                        angry: 1,
-                        disgust: 1,
-                        fear: 1,
-                        happy: 1,
-                        sad: 1,
-                        surprise: 1,
-                        neutral: 1
+                        angry: 0,
+                        disgust: 0,
+                        fear: 0,
+                        happy: 0,
+                        sad: 0,
+                        surprise: 0,
+                        neutral: 0
                     }
                     for (let j = 0; j < currentData.length; j++) {
                         counter.angry += currentData[j].angry > 0 ? 1 : 0;
@@ -137,15 +137,13 @@
                         counter.surprise += currentData[j].surprise > 0 ? 1 : 0;
                         counter.neutral += currentData[j].neutral > 0 ? 1 : 0;
                     }
-
-                    clusteredEmotions.angry = clusteredEmotions.angry / counter.angry
-                    clusteredEmotions.disgust = clusteredEmotions.disgust / counter.disgust
-                    clusteredEmotions.fear = clusteredEmotions.fear / counter.fear
-                    clusteredEmotions.happy = clusteredEmotions.happy / counter.happy
-                    clusteredEmotions.sad = clusteredEmotions.sad / counter.sad
-                    clusteredEmotions.surprise = clusteredEmotions.surprise / counter.surprise
-                    clusteredEmotions.neutral = clusteredEmotions.neutral / counter.neutral
-
+                    clusteredEmotions.angry = clusteredEmotions.angry > 0 ? clusteredEmotions.angry / counter.angry : 0;
+                    clusteredEmotions.disgust = clusteredEmotions.disgust > 0 ? clusteredEmotions.disgust / counter.disgust : 0
+                    clusteredEmotions.fear = clusteredEmotions.fear > 0 ? clusteredEmotions.fear / counter.fear : 0
+                    clusteredEmotions.happy = clusteredEmotions.happy > 0 ? clusteredEmotions.happy / counter.happy : 0
+                    clusteredEmotions.sad = clusteredEmotions.sad > 0 ? clusteredEmotions.sad / counter.sad : 0
+                    clusteredEmotions.surprise = clusteredEmotions.surprise > 0 ? clusteredEmotions.surprise / counter.surprise : 0
+                    clusteredEmotions.neutral = clusteredEmotions.neutral > 0 ? clusteredEmotions.neutral / counter.neutral : 0
                     emotions.push({
                         original: results[i].frame[0].ts.substring(3, results[i].frame[0].ts.length),
                         ts: parseTs(results[i].frame[0].ts),
