@@ -92,7 +92,6 @@
             for (let i = 0; i < results.length; i++) {
                 currentFrame++;
                 if (currentFrame === 15) {
-// {"angry": 0, "disgust": 0, "fear": 0, "happy": 0, "sad": 0, "surprise": 0, "neutral": 0}
                     let clusteredEmotions = {
                         "angry": 0,
                         "disgust": 0,
@@ -111,7 +110,6 @@
                         clusteredEmotions.surprise += currentData[frameId].surprise;
                         clusteredEmotions.neutral += currentData[frameId].neutral;
                     }
-                    console.log(clusteredEmotions);
                     emotions.push({
                         original: results[i].frame[0].ts.substring(3, results[i].frame[0].ts.length),
                         ts: parseTs(results[i].frame[0].ts),
@@ -245,6 +243,8 @@
             }
             subtitles.innerText = line;
         }
+        let subtitlesContainer = document.getElementById('subtitles-div');
+        subtitlesContainer.scrollTop = subtitlesContainer.scrollHeight
     }, 100)
 
     function loadJSON(filename, callback) {
@@ -278,7 +278,6 @@
                     data: []
                 }]
             },
-
             options: {
                 title: {
                     display: true,
