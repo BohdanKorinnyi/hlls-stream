@@ -87,12 +87,41 @@
         hls.attachMedia(video);
         loadJSON('jdata.json', function (json) {
             let results = JSON.parse(json);
+            let currentFrame = 0;
+            let currentData = [];
             for (let i = 0; i < results.length; i++) {
-                emotions.push({
-                    original: results[i].frame[0].ts,
-                    ts: parseTs(results[i].frame[0].ts),
-                    data: results[i].emotions[0]
-                });
+                currentFrame++;
+                if (currentFrame === 15) {
+// {"angry": 0, "disgust": 0, "fear": 0, "happy": 0, "sad": 0, "surprise": 0, "neutral": 0}
+                    let clusteredEmotions = {
+                        "angry": 0,
+                        "disgust": 0,
+                        "fear": 0,
+                        "happy": 0,
+                        "sad": 0,
+                        "surprise": 0,
+                        "neutral": 0
+                    };
+                    for (let frameId = 0; frameId < currentData.length; frameId++) {
+                        clusteredEmotions.angry += currentData[frameId].angry;
+                        clusteredEmotions.disgust += currentData[frameId].disgust;
+                        clusteredEmotions.fear += currentData[frameId].fear;
+                        clusteredEmotions.happy += currentData[frameId].happy;
+                        clusteredEmotions.sad += currentData[frameId].sad;
+                        clusteredEmotions.surprise += currentData[frameId].surprise;
+                        clusteredEmotions.neutral += currentData[frameId].neutral;
+                    }
+                    console.log(clusteredEmotions);
+                    emotions.push({
+                        original: results[i].frame[0].ts.substring(3, results[i].frame[0].ts.length),
+                        ts: parseTs(results[i].frame[0].ts),
+                        data: clusteredEmotions
+                    });
+                    currentFrame = 0
+                    currentData = []
+                } else {
+                    currentData.push(results[i].emotions[0])
+                }
             }
         });
 
