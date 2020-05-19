@@ -101,13 +101,13 @@
                 currentFrame++;
                 if (currentFrame === 15) {
                     let clusteredEmotions = {
-                        "angry": 0,
-                        "disgust": 0,
-                        "fear": 0,
-                        "happy": 0,
-                        "sad": 0,
-                        "surprise": 0,
-                        "neutral": 0
+                        angry: 0,
+                        disgust: 0,
+                        fear: 0,
+                        happy: 0,
+                        sad: 0,
+                        surprise: 0,
+                        neutral: 0
                     };
                     for (let frameId = 0; frameId < currentData.length; frameId++) {
                         clusteredEmotions.angry += currentData[frameId].angry;
@@ -118,6 +118,34 @@
                         clusteredEmotions.surprise += currentData[frameId].surprise;
                         clusteredEmotions.neutral += currentData[frameId].neutral;
                     }
+
+                    let counter = {
+                        angry: 1,
+                        disgust: 1,
+                        fear: 1,
+                        happy: 1,
+                        sad: 1,
+                        surprise: 1,
+                        neutral: 1
+                    }
+                    for (let j = 0; j < currentData.length; j++) {
+                        counter.angry += currentData[j].angry > 0 ? 1 : 0;
+                        counter.disgust += currentData[j].disgust > 0 ? 1 : 0;
+                        counter.fear += currentData[j].fear > 0 ? 1 : 0;
+                        counter.happy += currentData[j].happy > 0 ? 1 : 0;
+                        counter.sad += currentData[j].sad > 0 ? 1 : 0;
+                        counter.surprise += currentData[j].surprise > 0 ? 1 : 0;
+                        counter.neutral += currentData[j].neutral > 0 ? 1 : 0;
+                    }
+
+                    clusteredEmotions.angry = clusteredEmotions.angry / counter.angry
+                    clusteredEmotions.disgust = clusteredEmotions.disgust / counter.disgust
+                    clusteredEmotions.fear = clusteredEmotions.fear / counter.fear
+                    clusteredEmotions.happy = clusteredEmotions.happy / counter.happy
+                    clusteredEmotions.sad = clusteredEmotions.sad / counter.sad
+                    clusteredEmotions.surprise = clusteredEmotions.surprise / counter.surprise
+                    clusteredEmotions.neutral = clusteredEmotions.neutral / counter.neutral
+
                     emotions.push({
                         original: results[i].frame[0].ts.substring(3, results[i].frame[0].ts.length),
                         ts: parseTs(results[i].frame[0].ts),
