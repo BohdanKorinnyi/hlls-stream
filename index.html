@@ -246,6 +246,8 @@
         document.getElementById('subtitles-div').style.maxHeight = document.getElementById('video-div').clientHeight + 'px';
     }, 300);
 
+    let scrollHeight = 0;
+
     window.setInterval(function () {
         let video = document.getElementById('video');
         if (text.length !== 0 && document.getElementById('highlightState').checked) {
@@ -281,7 +283,10 @@
             subtitles.innerText = line;
         }
         let subtitlesContainer = document.getElementById('subtitles-div');
-        subtitlesContainer.scrollTop = subtitlesContainer.scrollHeight
+        if (scrollHeight !== subtitlesContainer.scrollHeight) {
+            subtitlesContainer.scrollTop = subtitlesContainer.scrollHeight
+            scrollHeight = subtitlesContainer.scrollHeight
+        }
     }, 100)
 
     function loadJSON(filename, callback) {
