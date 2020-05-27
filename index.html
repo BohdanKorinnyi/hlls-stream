@@ -273,7 +273,7 @@
                     if (speakerTag === text[index].name) {
                         speakerText += text[index].word + ' '
                     } else {
-                        subtitles.innerHTML += '<p class="alert alert-secondary" style="width: 80%; float: ' + side + '">' + speakerText + '</p>'
+                        subtitles.innerHTML += '<p class="alert alert-secondary" style="width: 80%; float: ' + side + '">' + speakerTag + ': ' + speakerText + '</p>'
                         side = side === 'left' ? 'right' : 'left'
                         speakerText = text[index].word + ' '
                     }
@@ -281,7 +281,7 @@
                 }
             }
             if (speakerText !== '') {
-                subtitles.innerHTML += '<p class="alert alert-secondary" style="width: 80%; float: ' + side + '">' + speakerText + '</p>'
+                subtitles.innerHTML += '<p class="alert alert-secondary" style="width: 80%; float: ' + side + '">' + speakerTag + ': ' + speakerText + '</p>'
             }
         } else if (text.length !== 0) {
             let foundText = null;
