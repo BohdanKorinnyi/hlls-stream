@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <title>Demo: Processing of HLS Stream</title>
     <script src="https://hls-js.netlify.app/dist/hls.js"></script>
@@ -29,7 +28,8 @@
                         <input type="checkbox" aria-label="Highlight Speaker" id="highlightState">
                     </div>
                 </div>
-                <input type="text" class="form-control" placeholder="Stream link" style="background: rgba(128,128,128,0.11)"
+                <input type="text" class="form-control" placeholder="Stream link"
+                       style="background: rgba(128,128,128,0.11)"
                        id="url">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="set_url">Apply</button>
@@ -78,19 +78,15 @@
     let surprise;
     let neutral;
 
-    let colors = {
-        1: 'blue',
-        3: 'red',
-        100: 'green'
-    };
-
     let text = [];
     let emotions = [];
 
+    let speakerTimeline = [];
+
     if (Hls.isSupported()) {
-        var video = document.getElementById('video');
+        let video = document.getElementById('video');
         document.getElementById('subtitles-div').style.maxHeight = document.getElementById('video-div').clientHeight + 'px';
-        var hls = new Hls();
+        let hls = new Hls();
         hls.loadSource('https://storage.googleapis.com/otopia_audio/conanZoom/ConanZoom.m3u8');
         hls.attachMedia(video);
         loadJSON('jdata.json', function (json) {
@@ -99,7 +95,7 @@
             let currentData = [];
             for (let i = 0; i < results.length; i++) {
                 currentFrame++;
-                if (currentFrame === 15) {
+                if (currentFrame === 15) {     // display emotions on the chart for each 15th frame only to reduce load
                     let clusteredEmotions = {
                         angry: 0,
                         disgust: 0,
@@ -180,6 +176,20 @@
                     });
                 }
             }
+            loadJSON('speakers.json', function (json) {
+                speakerTimeline = JSON.parse(json)
+                for (let i = 0; i < text.length; i++) {
+                    for (let j = 0; j < speakerTimeline.length; j++) {
+                        if (speakerTimeline[j].Start <= text[i].startTime && speakerTimeline[j].End >= text[i].endTime) {
+                            text[i].name = speakerTimeline[j].Name
+                            j = speakerTimeline.length
+                        }
+                    }
+                    if (text[i].name == null) {
+                        text[i].name = text[i - 1].name
+                    }
+                }
+            })
         })
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
             video.play();
@@ -190,7 +200,7 @@
 
     let btn = document.getElementById('set_url');
     btn.addEventListener('click', function () {
-        var hls = new Hls();
+        let hls = new Hls();
         hls.loadSource(document.getElementById('url').value);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
@@ -241,31 +251,37 @@
                 }
             }
         }
-        document.getElementById('subtitles-div').style.maxHeight = document.getElementById('video-div').clientHeight + 'px';
+        document.getElementById('subtitles-div').style.maxHeight = document.getElementById('video-div').clientHeight + 'px'
     }, 300);
 
-    let scrollHeight = 0;
+    let scrollHeight = 0
+    let prevTime = -1
 
     window.setInterval(function () {
         let video = document.getElementById('video');
+        let currentTime = parseFloat(video.currentTime);
+        if (currentTime === prevTime) {
+            return
+        }
         if (text.length !== 0 && document.getElementById('highlightState').checked) {
-            let currentTime = parseFloat(video.currentTime);
-            subtitles.innerText = '';
-            let speakerTag = text[0].speakerTag;
-            let speakerText = '';
+            subtitles.innerText = ''
+            let speakerTag = text[0].name
+            let speakerText = ''
+            let side = 'left'
             for (let index = 0; index < text.length; index++) {
                 if (text[index].endTime <= currentTime) {
-                    if (speakerTag === text[index].speakerTag) {
-                        speakerText += text[index].word + ' ';
+                    if (speakerTag === text[index].name) {
+                        speakerText += text[index].word + ' '
                     } else {
-                        subtitles.innerHTML += '<p style="color: ' + colors[speakerTag] + '">' + speakerText + '</p>';
-                        speakerText = ''
+                        subtitles.innerHTML += '<p class="alert alert-secondary" style="width: 80%; float: ' + side + '">' + speakerText + '</p>'
+                        side = side === 'left' ? 'right' : 'left'
+                        speakerText = text[index].word + ' '
                     }
-                    speakerTag = text[index].speakerTag
+                    speakerTag = text[index].name
                 }
             }
             if (speakerText !== '') {
-                subtitles.innerHTML += '<p style="color: ' + colors[speakerTag] + '">' + speakerText + '</p>';
+                subtitles.innerHTML += '<p class="alert alert-secondary" style="width: 80%; float: ' + side + '">' + speakerText + '</p>'
             }
         } else if (text.length !== 0) {
             let foundText = null;
@@ -280,6 +296,7 @@
             }
             subtitles.innerText = line;
         }
+        prevTime = currentTime;
         let subtitlesContainer = document.getElementById('subtitles-div');
         if (scrollHeight !== subtitlesContainer.scrollHeight) {
             subtitlesContainer.scrollTop = subtitlesContainer.scrollHeight
