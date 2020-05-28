@@ -182,11 +182,13 @@
                     for (let j = 0; j < speakerTimeline.length; j++) {
                         if (speakerTimeline[j].Start <= text[i].startTime && speakerTimeline[j].End >= text[i].endTime) {
                             text[i].name = speakerTimeline[j].Name
+                            text[i].color = speakerTimeline[j].Color
                             j = speakerTimeline.length
                         }
                     }
                     if (text[i].name == null) {
                         text[i].name = text[i - 1].name
+                        text[i].color = text[i - 1].Color
                     }
                 }
             })
@@ -266,6 +268,8 @@
         if (text.length !== 0 && document.getElementById('highlightState').checked) {
             subtitles.innerText = ''
             let speakerTag = text[0].name
+            let speakerColor = text[0].color
+            let speakerTime = text[0].startTime
             let speakerText = ''
             let side = 'left'
             for (let index = 0; index < text.length; index++) {
@@ -273,17 +277,31 @@
                     if (speakerTag === text[index].name) {
                         speakerText += text[index].word + ' '
                     } else {
-                        subtitles.innerHTML += '<p class="alert alert-secondary" style="max-width: 80%; margin-bottom: 5px; float: ' + side + '">' + speakerTag + ': ' + speakerText + '</p>'
-                        subtitles.innerHTML += '<p style="width: 100%; margin: 0; float: ' + side + '"></p>'
+                        subtitles.innerHTML +=
+                            '<div class="alert alert-secondary" ' +
+                            'style="max-width: 80%; margin-bottom: 5px; background: white; border: none; line-height: normal; float: ' + side + '">' +
+                            '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px">' + speakerTag + '</div>' +
+                            '<div> ' + speakerText + '</div>' +
+                            '<div style="font-size: smaller; color: grey; float: right; margin-right: -10px; margin-top: 3px">' + getSeconds(speakerTime) + '</div>' +
+                            '</div>'
+                        subtitles.innerHTML += '<div style="width: 100%; margin: 0; float: ' + side + '"></div>'
                         side = side === 'left' ? 'right' : 'left'
                         speakerText = text[index].word + ' '
+                        speakerTime = text[index].startTime
                     }
+                    speakerColor = text[index].color
                     speakerTag = text[index].name
                 }
             }
             if (speakerText !== '') {
-                subtitles.innerHTML += '<p class="alert alert-secondary" style="max-width: 80%; margin-bottom: 5px; float: ' + side + '">' + speakerTag + ': ' + speakerText + '</p>'
-                subtitles.innerHTML += '<p style="width: 100%; margin: 0; float: ' + side + '"></p>'
+                subtitles.innerHTML +=
+                    '<div class="alert alert-secondary" ' +
+                    'style="max-width: 80%; margin-bottom: 5px; background: white; border: none; line-height: normal; float: ' + side + '">' +
+                    '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px">' + speakerTag + '</div>' +
+                    '<div> ' + speakerText + '</div>' +
+                    '<div style="font-size: smaller; color: grey; float: right; margin-right: -10px; margin-top: 3px">' + getSeconds(speakerTime) + '</div>' +
+                    '</div>'
+                subtitles.innerHTML += '<div style="width: 100%; margin: 0; float: ' + side + '"></div>'
             }
         } else if (text.length !== 0) {
             let foundText = null;
@@ -305,6 +323,15 @@
             scrollHeight = subtitlesContainer.scrollHeight
         }
     }, 100)
+
+    function getSeconds(value) {
+        if (value > 60) {
+            let minutes = Math.floor(value / 60)
+            let seconds = (value - (minutes * 60).toFixed(0)).toFixed(0)
+            return '0' + minutes + ':' + (seconds > 10 ? seconds : '0' + seconds);
+        }
+        return '00:' + (value > 10 ? value.toFixed(0) : '0' + value.toFixed(0))
+    }
 
     function loadJSON(filename, callback) {
         let xobj = new XMLHttpRequest();

@@ -2,191 +2,229 @@
   {
     "Start": 0,
     "End": 47,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 47.9,
     "End": 48.9,
-    "Name": "Adam"
+    "Name": "Adam",
+    "Color": "#FFD717"
   },
   {
     "Start": 49,
     "End": 49.5,
-    "Name": "Mark"
+    "Name": "Mark",
+    "Color": "#ffaf12"
   },
   {
     "Start": 50.3,
     "End": 50.9,
-    "Name": "Mark"
+    "Name": "Mark",
+    "Color": "#ffaf12"
   },
   {
     "Start": 50.9,
     "End": 51.7,
-    "Name": "Alan"
+    "Name": "Alan",
+    "Color": "#4ec5a5"
   },
   {
     "Start": 51.8,
     "End": 52.1,
-    "Name": "Mark"
+    "Name": "Mark",
+    "Color": "#ffaf12"
   },
   {
     "Start": 52.3,
     "End": 52.7,
-    "Name": "Alan"
+    "Name": "Alan",
+    "Color": "#4ec5a5"
   },
   {
     "Start": 53,
     "End": 60.1,
-    "Name": "Mark"
+    "Name": "Mark",
+    "Color": "#ffaf12"
   },
   {
     "Start": 60.3,
     "End": 92,
-    "Name": "Dan"
+    "Name": "Dan",
+    "Color": "#798fa8"
   },
   {
     "Start": 92.4,
     "End": 146.6,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 147.2,
     "End": 148.8,
-    "Name": "Alan"
+    "Name": "Alan",
+    "Color": "#4ec5a5"
   },
   {
     "Start": 152.1,
     "End": 162.6,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 162.7,
     "End": 163.8,
-    "Name": "Mark"
+    "Name": "Mark",
+    "Color": "#ffaf12"
   },
   {
     "Start": 164.6,
     "End": 170,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 170,
     "End": 172.5,
-    "Name": "NA"
+    "Name": "N/A",
+    "Color": "#d13b40"
   },
   {
     "Start": 172.9,
     "End": 180.1,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 180.4,
     "End": 180.7,
-    "Name": "Mark"
+    "Name": "Mark",
+    "Color": "#ffaf12"
   },
   {
     "Start": 181.9,
     "End": 186.2,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 186.3,
     "End": 187.7,
-    "Name": "Molly"
+    "Name": "Molly",
+    "Color": "#FF3B0076"
   },
   {
     "Start": 191.3,
     "End": 192,
-    "Name": "NA"
+    "Name": "N/A",
+    "Color": "#d13b40"
   },
   {
     "Start": 192,
     "End": 193.4,
-    "Name": "Dan"
+    "Name": "Dan",
+    "Color": "#798fa8"
   },
   {
     "Start": 193.9,
     "End": 197.4,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 200,
     "End": 223.6,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 226.6,
     "End": 228.9,
-    "Name": "Dan"
+    "Name": "Dan",
+    "Color": "#798fa8"
   },
   {
     "Start": 228.9,
     "End": 233.4,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 236.1,
     "End": 237.6,
-    "Name": "Adam"
+    "Name": "Adam",
+    "Color": "#FFD717CE"
   },
   {
     "Start": 239,
     "End": 239.2,
-    "Name": "NA"
+    "Name": "N/A",
+    "Color": "#d13b40"
   },
   {
     "Start": 239.3,
     "End": 258.3,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 259.5,
     "End": 264.5,
-    "Name": "Mark"
+    "Name": "Mark",
+    "Color": "#ffaf12"
   },
   {
     "Start": 264.6,
     "End": 280.3,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 280.8,
     "End": 283.4,
-    "Name": "Molly"
+    "Name": "Molly",
+    "Color": "#FF3B0076"
   },
   {
     "Start": 283.5,
     "End": 284.5,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 284.5,
     "End": 286.2,
-    "Name": "Molly"
+    "Name": "Molly",
+    "Color": "#FF3B0076"
   },
   {
     "Start": 287.4,
     "End": 290.8,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 292.1,
     "End": 297.9,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 297.9,
     "End": 299.8,
-    "Name": "Becky"
+    "Name": "Becky",
+    "Color": "#35cd96"
   },
   {
     "Start": 303.5,
     "End": 348.8,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   },
   {
     "Start": 356.7,
     "End": 384.9,
-    "Name": "Conan"
+    "Name": "Conan",
+    "Color": "#35cd96"
   }
 ]
