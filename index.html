@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Demo: Processing of HLS Stream</title>
+    <title>Demo</title>
     <script src="https://hls-js.netlify.app/dist/hls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -30,7 +30,7 @@
                 </div>
                 <input type="text" class="form-control" placeholder="Stream link"
                        style="background: rgba(128,128,128,0.11)"
-                       id="url">
+                       id="url"/>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="set_url">Apply</button>
                 </div>
@@ -42,26 +42,32 @@
     </div>
     <div class="row">
         <div id="charts" style="width: 100%">
-            <div style="height: 250px; width: 14%; float: left">
-                <canvas id="happy" style="height: 100%; width: 100%"></canvas>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="mark" style="height: 100%; width: 100%"></canvas>
             </div>
-            <div style="height: 250px; width: 14%; float: left">
-                <canvas id="angry" style="height: 100%; width: 100%"></canvas>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="adam" style="height: 100%; width: 100%"></canvas>
             </div>
-            <div style="height: 250px; width: 14%; float: left">
-                <canvas id="disgust" style="height: 100%; width: 100%"></canvas>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="alan" style="height: 100%; width: 100%"></canvas>
             </div>
-            <div style="height: 250px; width: 14%; float: left">
-                <canvas id="fear" style="height: 100%; width: 100%"></canvas>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="terry" style="height: 100%; width: 100%"></canvas>
             </div>
-            <div style="height: 250px; width: 14%; float: left">
-                <canvas id="sad" style="height: 100%; width: 100%"></canvas>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="molly" style="height: 100%; width: 100%"></canvas>
             </div>
-            <div style="height: 250px; width: 14%; float: left">
-                <canvas id="surprise" style="height: 100%; width: 100%"></canvas>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="damon" style="height: 100%; width: 100%"></canvas>
             </div>
-            <div style="height: 250px; width: 14%; float: left">
-                <canvas id="neutral" style="height: 100%; width: 100%"></canvas>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="becky" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="dan" style="height: 100%; width: 100%"></canvas>
+            </div>
+            <div style="height: 250px; width: 11.1%; float: left">
+                <canvas id="conan" style="height: 100%; width: 100%"></canvas>
             </div>
         </div>
     </div>
@@ -70,13 +76,15 @@
 </body>
 
 <script>
-    let happy;
-    let angry;
-    let disgust;
-    let fear;
-    let sad;
-    let surprise;
-    let neutral;
+    let mark;
+    let adam;
+    let alan;
+    let terry;
+    let molly;
+    let damon;
+    let becky;
+    let dan;
+    let conan;
 
     let text = [];
     let emotions = [];
@@ -94,61 +102,75 @@
             let currentFrame = 0;
             let currentData = [];
             for (let i = 0; i < results.length; i++) {
+                if (results[i].face.length === 0) {
+                    continue
+                }
                 currentFrame++;
                 if (currentFrame === 15) {
-                    let clusteredEmotions = {
-                        angry: 0,
-                        disgust: 0,
-                        fear: 0,
-                        happy: 0,
-                        sad: 0,
-                        surprise: 0,
-                        neutral: 0
-                    };
-                    for (let frameId = 0; frameId < currentData.length; frameId++) {
-                        clusteredEmotions.angry += currentData[frameId].angry;
-                        clusteredEmotions.disgust += currentData[frameId].disgust;
-                        clusteredEmotions.fear += currentData[frameId].fear;
-                        clusteredEmotions.happy += currentData[frameId].happy;
-                        clusteredEmotions.sad += currentData[frameId].sad;
-                        clusteredEmotions.surprise += currentData[frameId].surprise;
-                        clusteredEmotions.neutral += currentData[frameId].neutral;
-                    }
-
-                    let counter = {
-                        angry: 0,
-                        disgust: 0,
-                        fear: 0,
-                        happy: 0,
-                        sad: 0,
-                        surprise: 0,
-                        neutral: 0
-                    }
+                    let cluster = {}
                     for (let j = 0; j < currentData.length; j++) {
-                        counter.angry += currentData[j].angry > 0 ? 1 : 0;
-                        counter.disgust += currentData[j].disgust > 0 ? 1 : 0;
-                        counter.fear += currentData[j].fear > 0 ? 1 : 0;
-                        counter.happy += currentData[j].happy > 0 ? 1 : 0;
-                        counter.sad += currentData[j].sad > 0 ? 1 : 0;
-                        counter.surprise += currentData[j].surprise > 0 ? 1 : 0;
-                        counter.neutral += currentData[j].neutral > 0 ? 1 : 0;
+                        let names = Object.keys(currentData[j])
+                        for (let k = 0; k < names.length; k++) {
+                            let emotion = currentData[j][names[k]].emotion
+                            let value = currentData[j][names[k]].value
+                            if (cluster[names[k]] !== undefined) {
+                                if (!isNaN(value)) {
+                                    if (cluster[names[k]][emotion] !== undefined) {
+                                        cluster[names[k]][emotion] = parseInt(cluster[names[k]][emotion]) + parseInt(value)
+                                    } else {
+                                        cluster[names[k]][emotion] = parseInt(value)
+                                    }
+                                }
+                            } else {
+                                cluster[names[k]] = {
+                                    angry: 0,
+                                    disgust: 0,
+                                    fear: 0,
+                                    happy: 0,
+                                    sad: 0,
+                                    surprise: 0,
+                                    neutral: 0
+                                };
+                                if (!isNaN(value)) {
+                                    cluster[names[k]][emotion] = value
+                                }
+                            }
+                        }
                     }
-                    clusteredEmotions.angry = clusteredEmotions.angry > 0 ? clusteredEmotions.angry / counter.angry : 0;
-                    clusteredEmotions.disgust = clusteredEmotions.disgust > 0 ? clusteredEmotions.disgust / counter.disgust : 0
-                    clusteredEmotions.fear = clusteredEmotions.fear > 0 ? clusteredEmotions.fear / counter.fear : 0
-                    clusteredEmotions.happy = clusteredEmotions.happy > 0 ? clusteredEmotions.happy / counter.happy : 0
-                    clusteredEmotions.sad = clusteredEmotions.sad > 0 ? clusteredEmotions.sad / counter.sad : 0
-                    clusteredEmotions.surprise = clusteredEmotions.surprise > 0 ? clusteredEmotions.surprise / counter.surprise : 0
-                    clusteredEmotions.neutral = clusteredEmotions.neutral > 0 ? clusteredEmotions.neutral / counter.neutral : 0
                     emotions.push({
                         original: results[i].frame[0].ts.substring(3, results[i].frame[0].ts.length),
                         ts: parseTs(results[i].frame[0].ts),
-                        data: clusteredEmotions
+                        data: cluster
                     });
                     currentFrame = 0
                     currentData = []
                 } else {
-                    currentData.push(results[i].emotions[0])
+                    let participants = {};
+                    for (let j = 0; j < results[i].face.length; j++) {
+                        let participant = results[i].face[j].name
+                        let participantEmotions = results[i].face[j].emotions
+                        if (participants[participantEmotions] !== undefined) {
+                            participants[participantEmotions].push(participant)
+                        } else {
+                            participants[participantEmotions] = []
+                            participants[participantEmotions].push(participant)
+                        }
+                    }
+
+                    let frameEmotions = Object.keys(participants)
+                    let emotions = {}
+                    for (let j = 0; j < frameEmotions.length; j++) {
+                        let emotion = frameEmotions[j]
+                        let names = participants[emotion]
+                        let avgEmo = parseInt(results[i].emotions[0][emotion]) / names.length
+                        for (let k = 0; k < names.length; k++) {
+                            emotions[names[k]] = {
+                                emotion: emotion,
+                                value: avgEmo
+                            };
+                        }
+                    }
+                    currentData.push(emotions)
                 }
             }
         });
@@ -221,35 +243,103 @@
             let minTime = (currentTime - 20) > 0 ? currentTime - 20 : 0;
             for (let i = 0; i < emotions.length; i++) {
                 if (currentTime > emotions[i].ts && minTime < emotions[i].ts && lastAddedTsToChart < emotions[i].ts) {
-                    happy.data.datasets[0].data.push(emotions[i].data.happy)
-                    happy.data.labels.push(emotions[i].original)
+                    if (emotions[i].data['Mark'] !== undefined) {
+                        mark.data.datasets[0].data.push(emotions[i].data['Mark']['happy'])
+                        mark.data.datasets[1].data.push(emotions[i].data['Mark']['angry'])
+                        mark.data.datasets[2].data.push(emotions[i].data['Mark']['disgust'])
+                        mark.data.datasets[3].data.push(emotions[i].data['Mark']['sad'])
+                        mark.data.datasets[4].data.push(emotions[i].data['Mark']['surprise'])
+                        mark.data.datasets[5].data.push(emotions[i].data['Mark']['neutral'])
+                        mark.data.labels.push(emotions[i].original)
 
-                    angry.data.datasets[0].data.push(emotions[i].data.angry)
-                    angry.data.labels.push(emotions[i].original)
+                        mark.update()
+                    }
 
-                    disgust.data.datasets[0].data.push(emotions[i].data.disgust)
-                    disgust.data.labels.push(emotions[i].original)
+                    if (emotions[i].data['Adam'] !== undefined) {
+                        adam.data.datasets[0].data.push(emotions[i].data['Adam']['happy'])
+                        adam.data.datasets[1].data.push(emotions[i].data['Adam']['angry'])
+                        adam.data.datasets[2].data.push(emotions[i].data['Adam']['disgust'])
+                        adam.data.datasets[3].data.push(emotions[i].data['Adam']['sad'])
+                        adam.data.datasets[4].data.push(emotions[i].data['Adam']['surprise'])
+                        adam.data.datasets[5].data.push(emotions[i].data['Adam']['neutral'])
+                        adam.data.labels.push(emotions[i].original)
 
-                    fear.data.datasets[0].data.push(emotions[i].data.disgust)
-                    fear.data.labels.push(emotions[i].original)
+                        adam.update()
+                    }
 
-                    sad.data.datasets[0].data.push(emotions[i].data.sad)
-                    sad.data.labels.push(emotions[i].original)
+                    if (emotions[i].data['Alan'] !== undefined) {
+                        alan.data.datasets[0].data.push(emotions[i].data['Alan']['happy'])
+                        alan.data.datasets[1].data.push(emotions[i].data['Alan']['angry'])
+                        alan.data.datasets[2].data.push(emotions[i].data['Alan']['disgust'])
+                        alan.data.datasets[3].data.push(emotions[i].data['Alan']['sad'])
+                        alan.data.datasets[4].data.push(emotions[i].data['Alan']['surprise'])
+                        alan.data.datasets[5].data.push(emotions[i].data['Alan']['neutral'])
+                        alan.data.labels.push(emotions[i].original)
 
-                    surprise.data.datasets[0].data.push(emotions[i].data.surprise)
-                    surprise.data.labels.push(emotions[i].original)
+                        alan.update()
+                    }
 
-                    neutral.data.datasets[0].data.push(emotions[i].data.neutral)
-                    neutral.data.labels.push(emotions[i].original)
+                    if (emotions[i].data['Alan'] !== undefined) {
+                        terry.data.datasets[0].data.push(emotions[i].data['Terry']['happy'])
+                        terry.data.datasets[1].data.push(emotions[i].data['Terry']['angry'])
+                        terry.data.datasets[2].data.push(emotions[i].data['Terry']['disgust'])
+                        terry.data.datasets[3].data.push(emotions[i].data['Terry']['sad'])
+                        terry.data.datasets[4].data.push(emotions[i].data['Terry']['surprise'])
+                        terry.data.datasets[5].data.push(emotions[i].data['Terry']['neutral'])
+                        terry.data.labels.push(emotions[i].original)
+
+                        terry.update()
+                    }
+
+                    if (emotions[i].data['Molly'] !== undefined) {
+                        molly.data.datasets[0].data.push(emotions[i].data['Molly']['happy'])
+                        molly.data.datasets[1].data.push(emotions[i].data['Molly']['angry'])
+                        molly.data.datasets[2].data.push(emotions[i].data['Molly']['disgust'])
+                        molly.data.datasets[3].data.push(emotions[i].data['Molly']['sad'])
+                        molly.data.datasets[4].data.push(emotions[i].data['Molly']['surprise'])
+                        molly.data.datasets[5].data.push(emotions[i].data['Molly']['neutral'])
+                        molly.data.labels.push(emotions[i].original)
+
+                        molly.update()
+                    }
+
+                    if (emotions[i].data['Damon'] !== undefined) {
+                        damon.data.datasets[0].data.push(emotions[i].data['Damon']['happy'])
+                        damon.data.datasets[1].data.push(emotions[i].data['Damon']['angry'])
+                        damon.data.datasets[2].data.push(emotions[i].data['Damon']['disgust'])
+                        damon.data.datasets[3].data.push(emotions[i].data['Damon']['sad'])
+                        damon.data.datasets[4].data.push(emotions[i].data['Damon']['surprise'])
+                        damon.data.datasets[5].data.push(emotions[i].data['Damon']['neutral'])
+                        damon.data.labels.push(emotions[i].original)
+
+                        damon.update()
+                    }
+
+                    if (emotions[i].data['Becky'] !== undefined) {
+                        becky.data.datasets[0].data.push(emotions[i].data['Becky']['happy'])
+                        becky.data.datasets[1].data.push(emotions[i].data['Becky']['angry'])
+                        becky.data.datasets[2].data.push(emotions[i].data['Becky']['disgust'])
+                        becky.data.datasets[3].data.push(emotions[i].data['Becky']['sad'])
+                        becky.data.datasets[4].data.push(emotions[i].data['Becky']['surprise'])
+                        becky.data.datasets[5].data.push(emotions[i].data['Becky']['neutral'])
+                        becky.data.labels.push(emotions[i].original)
+
+                        becky.update()
+                    }
+
+                    if (emotions[i].data['Dan'] !== undefined) {
+                        dan.data.datasets[0].data.push(emotions[i].data['Dan']['happy'])
+                        dan.data.datasets[1].data.push(emotions[i].data['Dan']['angry'])
+                        dan.data.datasets[2].data.push(emotions[i].data['Dan']['disgust'])
+                        dan.data.datasets[3].data.push(emotions[i].data['Dan']['sad'])
+                        dan.data.datasets[4].data.push(emotions[i].data['Dan']['surprise'])
+                        dan.data.datasets[5].data.push(emotions[i].data['Dan']['neutral'])
+                        dan.data.labels.push(emotions[i].original)
+
+                        dan.update()
+                    }
 
                     lastAddedTsToChart = emotions[i].ts
-                    happy.update()
-                    angry.update()
-                    disgust.update()
-                    fear.update()
-                    sad.update()
-                    surprise.update()
-                    neutral.update()
                 }
             }
         }
@@ -345,13 +435,15 @@
         xobj.send(null);
     }
 
-    happy = createChart('happy', 'Happy', 'rgb(162,255,127)')
-    angry = createChart('angry', 'Angry', 'rgb(144,0,32)')
-    disgust = createChart('disgust', 'Disgust', 'rgb(238,133,6)')
-    fear = createChart('fear', 'Fear', 'rgb(182,180,180)')
-    sad = createChart('sad', 'Sad', 'rgb(59,0,118)')
-    surprise = createChart('surprise', 'Surprise', 'rgb(9,196,213)')
-    neutral = createChart('neutral', 'Neutral', 'rgb(215,23,206)')
+    mark = createChart('mark', 'Mark', 'rgb(162,255,127)')
+    adam = createChart('adam', 'Adam', 'rgb(144,0,32)')
+    alan = createChart('alan', 'Alan', 'rgb(238,133,6)')
+    terry = createChart('terry', 'Terry', 'rgb(182,180,180)')
+    molly = createChart('molly', 'Molly', 'rgb(59,0,118)')
+    damon = createChart('damon', 'Damon', 'rgb(9,196,213)')
+    becky = createChart('becky', 'Becky', 'rgb(215,23,206)')
+    dan = createChart('dan', 'Dan', 'rgb(215,23,206)')
+    conan = createChart('conan', 'Conan', 'rgb(215,23,206)')
 
     function createChart(id, name, color) {
         let ctx = document.getElementById(id).getContext('2d');
@@ -360,7 +452,32 @@
             data: {
                 labels: [],
                 datasets: [{
-                    borderColor: color,
+                    label: 'Happy',
+                    borderColor: 'rgb(162,255,127)',
+                    data: []
+                }, {
+                    label: 'Angry',
+                    borderColor: 'rgb(144,0,32)',
+                    data: []
+                }, {
+                    label: 'Disgust',
+                    borderColor: 'rgb(238,133,6)',
+                    data: []
+                }, {
+                    label: 'Fear',
+                    borderColor: 'rgb(182,180,180)',
+                    data: []
+                }, {
+                    label: 'Sad',
+                    borderColor: 'rgb(59,0,118)',
+                    data: []
+                }, {
+                    label: 'Surprise',
+                    borderColor: 'rgb(9,196,213)',
+                    data: []
+                }, {
+                    label: 'Neutral',
+                    borderColor: 'rgb(215,23,206)',
                     data: []
                 }]
             },
@@ -370,7 +487,8 @@
                     text: name
                 },
                 legend: {
-                    display: false
+                    display: false,
+                    position: 'bottom'
                 },
                 scales: {
                     yAxes: [{
@@ -381,6 +499,16 @@
                 }
             }
         });
+    }
+
+    let colors = {
+        'happy': 'rgb(162,255,127)',
+        'angry': 'rgb(144,0,32)',
+        'disgust': 'rgb(238,133,6)',
+        'fear': 'rgb(182,180,180)',
+        'sad': 'rgb(59,0,118)',
+        'surprise': 'rgb(9,196,213)',
+        'neutral': 'rgb(215,23,206)',
     }
 </script>
 </html>
