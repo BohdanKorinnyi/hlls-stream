@@ -89,13 +89,13 @@
         let hls = new Hls();
         hls.loadSource('https://storage.googleapis.com/otopia_audio/conanZoom/ConanZoom.m3u8');
         hls.attachMedia(video);
-        loadJSON('jdata.json', function (json) {
+        loadJSON('newjdata.json', function (json) {
             let results = JSON.parse(json);
             let currentFrame = 0;
             let currentData = [];
             for (let i = 0; i < results.length; i++) {
                 currentFrame++;
-                if (currentFrame === 15) {     // display emotions on the chart for each 15th frame only to reduce load
+                if (currentFrame === 15) {
                     let clusteredEmotions = {
                         angry: 0,
                         disgust: 0,
