@@ -179,9 +179,18 @@
             let splitted = ts.split(':');
             let minutes = parseFloat(splitted[1].replace('0', ''));
             let tempSec = splitted[2].split('.');
-            let seconds = parseFloat(tempSec[0].replace('0', ''));
+            let seconds = parseFloat(replaceZero(tempSec[0]));
             let milliseconds = parseFloat(tempSec[1].slice(0, -1));
-            return parseFloat((minutes * 60 + seconds) + '.' + milliseconds);
+            let output = parseFloat((minutes * 60 + seconds) + '.' + milliseconds)
+            console.log('input: ' + ts + ' output: ' + output)
+            return output;
+        }
+
+        function replaceZero(value) {
+            while (value.startsWith('0')) {
+                value = value.substring(1, value.length)
+            }
+            return value
         }
 
         loadJSON('ConanZoomTranscript.json', function (json) {
@@ -243,6 +252,7 @@
             let minTime = (currentTime - 20) > 0 ? currentTime - 20 : 0;
             for (let i = 0; i < emotions.length; i++) {
                 if (currentTime > emotions[i].ts && minTime < emotions[i].ts && lastAddedTsToChart < emotions[i].ts) {
+                    console.log('currentTime: ' + currentTime + ' ts: ' + emotions[i].ts + ' lastAddedTsToChart: ' + lastAddedTsToChart + ' original: ' + emotions[i].original)
                     if (emotions[i].data['Mark'] !== undefined) {
                         mark.data.datasets[0].data.push(emotions[i].data['Mark']['happy'])
                         mark.data.datasets[1].data.push(emotions[i].data['Mark']['angry'])
@@ -253,6 +263,18 @@
                         mark.data.labels.push(emotions[i].original)
 
                         mark.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        mark.data.datasets[0].data.push(0)
+                        mark.data.datasets[1].data.push(0)
+                        mark.data.datasets[2].data.push(0)
+                        mark.data.datasets[3].data.push(0)
+                        mark.data.datasets[4].data.push(0)
+                        mark.data.datasets[5].data.push(0)
+                        mark.data.labels.push(emotions[i].original)
+
+                        mark.update()
+                        lastAddedTsToChart = emotions[i].ts
                     }
 
                     if (emotions[i].data['Adam'] !== undefined) {
@@ -265,6 +287,18 @@
                         adam.data.labels.push(emotions[i].original)
 
                         adam.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        adam.data.datasets[0].data.push(0)
+                        adam.data.datasets[1].data.push(0)
+                        adam.data.datasets[2].data.push(0)
+                        adam.data.datasets[3].data.push(0)
+                        adam.data.datasets[4].data.push(0)
+                        adam.data.datasets[5].data.push(0)
+                        adam.data.labels.push(emotions[i].original)
+
+                        adam.update()
+                        lastAddedTsToChart = emotions[i].ts
                     }
 
                     if (emotions[i].data['Alan'] !== undefined) {
@@ -277,9 +311,21 @@
                         alan.data.labels.push(emotions[i].original)
 
                         alan.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        alan.data.datasets[0].data.push(0)
+                        alan.data.datasets[1].data.push(0)
+                        alan.data.datasets[2].data.push(0)
+                        alan.data.datasets[3].data.push(0)
+                        alan.data.datasets[4].data.push(0)
+                        alan.data.datasets[5].data.push(0)
+                        alan.data.labels.push(emotions[i].original)
+
+                        alan.update()
+                        lastAddedTsToChart = emotions[i].ts
                     }
 
-                    if (emotions[i].data['Alan'] !== undefined) {
+                    if (emotions[i].data['Terry'] !== undefined) {
                         terry.data.datasets[0].data.push(emotions[i].data['Terry']['happy'])
                         terry.data.datasets[1].data.push(emotions[i].data['Terry']['angry'])
                         terry.data.datasets[2].data.push(emotions[i].data['Terry']['disgust'])
@@ -289,6 +335,18 @@
                         terry.data.labels.push(emotions[i].original)
 
                         terry.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        terry.data.datasets[0].data.push(0)
+                        terry.data.datasets[1].data.push(0)
+                        terry.data.datasets[2].data.push(0)
+                        terry.data.datasets[3].data.push(0)
+                        terry.data.datasets[4].data.push(0)
+                        terry.data.datasets[5].data.push(0)
+                        terry.data.labels.push(emotions[i].original)
+
+                        terry.update()
+                        lastAddedTsToChart = emotions[i].ts
                     }
 
                     if (emotions[i].data['Molly'] !== undefined) {
@@ -301,6 +359,18 @@
                         molly.data.labels.push(emotions[i].original)
 
                         molly.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        molly.data.datasets[0].data.push(0)
+                        molly.data.datasets[1].data.push(0)
+                        molly.data.datasets[2].data.push(0)
+                        molly.data.datasets[3].data.push(0)
+                        molly.data.datasets[4].data.push(0)
+                        molly.data.datasets[5].data.push(0)
+                        molly.data.labels.push(emotions[i].original)
+
+                        molly.update()
+                        lastAddedTsToChart = emotions[i].ts
                     }
 
                     if (emotions[i].data['Damon'] !== undefined) {
@@ -313,6 +383,18 @@
                         damon.data.labels.push(emotions[i].original)
 
                         damon.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        damon.data.datasets[0].data.push(0)
+                        damon.data.datasets[1].data.push(0)
+                        damon.data.datasets[2].data.push(0)
+                        damon.data.datasets[3].data.push(0)
+                        damon.data.datasets[4].data.push(0)
+                        damon.data.datasets[5].data.push(0)
+                        damon.data.labels.push(emotions[i].original)
+
+                        damon.update()
+                        lastAddedTsToChart = emotions[i].ts
                     }
 
                     if (emotions[i].data['Becky'] !== undefined) {
@@ -325,6 +407,18 @@
                         becky.data.labels.push(emotions[i].original)
 
                         becky.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        becky.data.datasets[0].data.push(0)
+                        becky.data.datasets[1].data.push(0)
+                        becky.data.datasets[2].data.push(0)
+                        becky.data.datasets[3].data.push(0)
+                        becky.data.datasets[4].data.push(0)
+                        becky.data.datasets[5].data.push(0)
+                        becky.data.labels.push(emotions[i].original)
+
+                        becky.update()
+                        lastAddedTsToChart = emotions[i].ts
                     }
 
                     if (emotions[i].data['Dan'] !== undefined) {
@@ -337,9 +431,19 @@
                         dan.data.labels.push(emotions[i].original)
 
                         dan.update()
-                    }
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        dan.data.datasets[0].data.push(0)
+                        dan.data.datasets[1].data.push(0)
+                        dan.data.datasets[2].data.push(0)
+                        dan.data.datasets[3].data.push(0)
+                        dan.data.datasets[4].data.push(0)
+                        dan.data.datasets[5].data.push(0)
+                        dan.data.labels.push(emotions[i].original)
 
-                    lastAddedTsToChart = emotions[i].ts
+                        dan.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    }
                 }
             }
         }
