@@ -97,7 +97,7 @@
         let hls = new Hls();
         hls.loadSource('https://storage.googleapis.com/otopia_audio/conanZoom/ConanZoom.m3u8');
         hls.attachMedia(video);
-        loadJSON('newjdata.json', function (json) {
+        loadJSON('improvedjdata.json', function (json) {
             let results = JSON.parse(json);
             let currentFrame = 0;
             let currentData = [];
@@ -181,9 +181,7 @@
             let tempSec = splitted[2].split('.');
             let seconds = parseFloat(replaceZero(tempSec[0]));
             let milliseconds = parseFloat(tempSec[1].slice(0, -1));
-            let output = parseFloat((minutes * 60 + seconds) + '.' + milliseconds)
-            console.log('input: ' + ts + ' output: ' + output)
-            return output;
+            return parseFloat((minutes * 60 + seconds) + '.' + milliseconds);
         }
 
         function replaceZero(value) {
@@ -252,7 +250,6 @@
             let minTime = (currentTime - 20) > 0 ? currentTime - 20 : 0;
             for (let i = 0; i < emotions.length; i++) {
                 if (currentTime > emotions[i].ts && minTime < emotions[i].ts && lastAddedTsToChart < emotions[i].ts) {
-                    console.log('currentTime: ' + currentTime + ' ts: ' + emotions[i].ts + ' lastAddedTsToChart: ' + lastAddedTsToChart + ' original: ' + emotions[i].original)
                     if (emotions[i].data['Mark'] !== undefined) {
                         mark.data.datasets[0].data.push(emotions[i].data['Mark']['happy'])
                         mark.data.datasets[1].data.push(emotions[i].data['Mark']['angry'])
@@ -442,6 +439,30 @@
                         dan.data.labels.push(emotions[i].original)
 
                         dan.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    }
+
+                    if (emotions[i].data['Conan'] !== undefined) {
+                        conan.data.datasets[0].data.push(emotions[i].data['Conan']['happy'])
+                        conan.data.datasets[1].data.push(emotions[i].data['Conan']['angry'])
+                        conan.data.datasets[2].data.push(emotions[i].data['Conan']['disgust'])
+                        conan.data.datasets[3].data.push(emotions[i].data['Conan']['sad'])
+                        conan.data.datasets[4].data.push(emotions[i].data['Conan']['surprise'])
+                        conan.data.datasets[5].data.push(emotions[i].data['Conan']['neutral'])
+                        conan.data.labels.push(emotions[i].original)
+
+                        conan.update()
+                        lastAddedTsToChart = emotions[i].ts
+                    } else {
+                        conan.data.datasets[0].data.push(0)
+                        conan.data.datasets[1].data.push(0)
+                        conan.data.datasets[2].data.push(0)
+                        conan.data.datasets[3].data.push(0)
+                        conan.data.datasets[4].data.push(0)
+                        conan.data.datasets[5].data.push(0)
+                        conan.data.labels.push(emotions[i].original)
+
+                        conan.update()
                         lastAddedTsToChart = emotions[i].ts
                     }
                 }
