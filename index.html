@@ -516,8 +516,13 @@
             if (speakerText !== '') {
                 subtitles.innerHTML +=
                     '<div class="alert alert-secondary" ' +
-                    'style="max-width: 80%; margin-bottom: 5px; background: white; border: none; line-height: normal; float: ' + side + '">' +
-                    '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px">' + speakerTag + '</div>' +
+                    'style="max-width: 80%; min-width: 150px; margin-bottom: 5px; background: white; border: none; line-height: normal; float: ' + side + '">' +
+                    '<div class="row">' +
+                    '   <div style="display: inline-block">' +
+                    '       <img style="height: 40px; width: 40px;" src="avatars/' + speakerTag.toLowerCase().replace('/', '') + '.jpg" class="rounded-circle float-left" alt="...">' +
+                    '   </div>' +
+                    '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px; margin-left: 10px; margin-top: 10px"><p>' + speakerTag + '</p></div>' +
+                    '</div>' +
                     '<div> ' + speakerText + '</div>' +
                     '<div style="font-size: smaller; color: grey; float: right; margin-right: -10px; margin-top: 3px">' + getSeconds(speakerTime) + '</div>' +
                     '</div>'
