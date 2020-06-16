@@ -14,6 +14,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
+    <style>
+        .emochart {
+
+        }
+    </style>
 </head>
 
 <body style="background: rgba(128,128,128,0.1)">
@@ -43,33 +48,60 @@
     <div class="row">
         <div id="charts" style="width: 100%">
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="mark" style="height: 100%; width: 100%"></canvas>
+                <canvas id="mark" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="adam" style="height: 100%; width: 100%"></canvas>
+                <canvas id="adam" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="alan" style="height: 100%; width: 100%"></canvas>
+                <canvas id="alan" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="terry" style="height: 100%; width: 100%"></canvas>
+                <canvas id="terry" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="molly" style="height: 100%; width: 100%"></canvas>
+                <canvas id="molly" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="damon" style="height: 100%; width: 100%"></canvas>
+                <canvas id="damon" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="becky" style="height: 100%; width: 100%"></canvas>
+                <canvas id="becky" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="dan" style="height: 100%; width: 100%"></canvas>
+                <canvas id="dan" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
             <div style="height: 250px; width: 11.1%; float: left">
-                <canvas id="conan" style="height: 100%; width: 100%"></canvas>
+                <canvas id="conan" class="emochart" style="height: 100%; width: 100%"></canvas>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div id="happy-name" style="margin-left: 25px;display: inline-block">Happy</div>
+            <div id="happy-logo"
+                 style="background: rgb(162,255,127); width: 50px; height: 10px; display: inline-block"></div>
+            <div id="angry-name" style="margin-left: 25px; display: inline-block">Angry</div>
+            <div id="angry-logo"
+                 style="background: rgb(144,0,32); width: 50px; height: 10px; display: inline-block"></div>
+            <div id="disgust-name" style="margin-left: 25px;display: inline-block">Disgust</div>
+            <div id="disgust-logo"
+                 style="background: rgb(238,133,6); width: 50px; height: 10px; display: inline-block"></div>
+            <div id="fear-name" style="margin-left: 25px;display: inline-block">Fear</div>
+            <div id="fear-logo"
+                 style="background: rgb(182,180,180); width: 50px; height: 10px; display: inline-block"></div>
+            <div id="sad-name" style="margin-left: 25px;display: inline-block">Sad</div>
+            <div id="sad-logo"
+                 style="background: rgb(59,0,118); width: 50px; height: 10px; display: inline-block"></div>
+            <div id="surprise-name" style="margin-left: 25px;display: inline-block">Surprise</div>
+            <div id="surprise-logo"
+                 style="background: rgb(9,196,213); width: 50px; height: 10px; display: inline-block"></div>
+            <div id="neutral-name" style="margin-left: 25px;display: inline-block">Neutral</div>
+            <div id="neutral-logo"
+                 style="background: rgb(215,23,206); width: 50px; height: 10px; display: inline-block"></div>
+        </div>
+        <div class="col-md-3"></div>
     </div>
 </div>
 
@@ -85,6 +117,21 @@
     let becky;
     let dan;
     let conan;
+
+    document.getElementById('happy-name').addEventListener("click", legendClickCallback.bind(this, 0), false)
+    document.getElementById('happy-logo').addEventListener("click", legendClickCallback.bind(this, 0), false)
+    document.getElementById('angry-name').addEventListener("click", legendClickCallback.bind(this, 1), false)
+    document.getElementById('angry-logo').addEventListener("click", legendClickCallback.bind(this, 1), false)
+    document.getElementById('disgust-name').addEventListener("click", legendClickCallback.bind(this, 2), false)
+    document.getElementById('disgust-logo').addEventListener("click", legendClickCallback.bind(this, 2), false)
+    document.getElementById('fear-name').addEventListener("click", legendClickCallback.bind(this, 3), false)
+    document.getElementById('fear-logo').addEventListener("click", legendClickCallback.bind(this, 3), false)
+    document.getElementById('sad-name').addEventListener("click", legendClickCallback.bind(this, 4), false)
+    document.getElementById('sad-logo').addEventListener("click", legendClickCallback.bind(this, 4), false)
+    document.getElementById('surprise-name').addEventListener("click", legendClickCallback.bind(this, 5), false)
+    document.getElementById('surprise-logo').addEventListener("click", legendClickCallback.bind(this, 5), false)
+    document.getElementById('neutral-name').addEventListener("click", legendClickCallback.bind(this, 6), false)
+    document.getElementById('neutral-logo').addEventListener("click", legendClickCallback.bind(this, 6), false)
 
     let text = [];
     let emotions = [];
@@ -499,7 +546,7 @@
                             '   <div style="display: inline-block">' +
                             '       <img style="height: 40px; width: 40px;" src="avatars/' + speakerTag.toLowerCase().replace('/', '') + '.jpg" class="rounded-circle float-left" alt="...">' +
                             '   </div>' +
-                            '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px; margin-left: 10px; margin-top: 10px"><p>' + speakerTag + '</p></div>' +
+                            '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px; margin-left: 25px; margin-top: 10px"><p>' + speakerTag + '</p></div>' +
                             '</div>' +
                             '<div> ' + speakerText + '</div>' +
                             '<div style="font-size: smaller; color: grey; float: right; margin-right: -10px; margin-top: 3px">' + getSeconds(speakerTime) + '</div>' +
@@ -521,7 +568,7 @@
                     '   <div style="display: inline-block">' +
                     '       <img style="height: 40px; width: 40px;" src="avatars/' + speakerTag.toLowerCase().replace('/', '') + '.jpg" class="rounded-circle float-left" alt="...">' +
                     '   </div>' +
-                    '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px; margin-left: 10px; margin-top: 10px"><p>' + speakerTag + '</p></div>' +
+                    '<div style="color: ' + speakerColor + '!important; margin-bottom: 5px; margin-left: 25px; margin-top: 10px"><p>' + speakerTag + '</p></div>' +
                     '</div>' +
                     '<div> ' + speakerText + '</div>' +
                     '<div style="font-size: smaller; color: grey; float: right; margin-right: -10px; margin-top: 3px">' + getSeconds(speakerTime) + '</div>' +
@@ -570,15 +617,31 @@
         xobj.send(null);
     }
 
-    mark = createChart('mark', 'Mark', 'rgb(162,255,127)')
-    adam = createChart('adam', 'Adam', 'rgb(144,0,32)')
-    alan = createChart('alan', 'Alan', 'rgb(238,133,6)')
-    terry = createChart('terry', 'Terry', 'rgb(182,180,180)')
-    molly = createChart('molly', 'Molly', 'rgb(59,0,118)')
-    damon = createChart('damon', 'Damon', 'rgb(9,196,213)')
-    becky = createChart('becky', 'Becky', 'rgb(215,23,206)')
-    dan = createChart('dan', 'Dan', 'rgb(215,23,206)')
-    conan = createChart('conan', 'Conan', 'rgb(215,23,206)')
+    mark = createChart('mark', 'Mark')
+    adam = createChart('adam', 'Adam')
+    alan = createChart('alan', 'Alan')
+    terry = createChart('terry', 'Terry')
+    molly = createChart('molly', 'Molly')
+    damon = createChart('damon', 'Damon')
+    becky = createChart('becky', 'Becky')
+    dan = createChart('dan', 'Dan')
+    conan = createChart('conan', 'Conan')
+
+    function legendClickCallback(legendItemIndex) {
+        console.log(legendItemIndex)
+        document.querySelectorAll('.emochart').forEach((chartItem, index) => {
+            let chart = Chart.instances[index];
+            let dataItem = chart.data.datasets[legendItemIndex]
+            if (dataItem.hidden === undefined) {
+                dataItem.hidden = true
+            } else if (dataItem.hidden === false) {
+                dataItem.hidden = true
+            } else if (dataItem.hidden === true) {
+                dataItem.hidden = false
+            }
+            chart.update();
+        })
+    }
 
     function createChart(id, name, color) {
         let ctx = document.getElementById(id).getContext('2d');
@@ -622,7 +685,7 @@
                     text: name
                 },
                 legend: {
-                    display: true,
+                    display: false,
                     position: 'bottom'
                 },
                 scales: {
@@ -634,16 +697,6 @@
                 }
             }
         });
-    }
-
-    let colors = {
-        'happy': 'rgb(162,255,127)',
-        'angry': 'rgb(144,0,32)',
-        'disgust': 'rgb(238,133,6)',
-        'fear': 'rgb(182,180,180)',
-        'sad': 'rgb(59,0,118)',
-        'surprise': 'rgb(9,196,213)',
-        'neutral': 'rgb(215,23,206)',
     }
 </script>
 </html>
