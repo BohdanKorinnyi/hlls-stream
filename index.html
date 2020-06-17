@@ -118,20 +118,20 @@
     let dan;
     let conan;
 
-    document.getElementById('happy-name').addEventListener("click", legendClickCallback.bind(this, 0), false)
-    document.getElementById('happy-logo').addEventListener("click", legendClickCallback.bind(this, 0), false)
-    document.getElementById('angry-name').addEventListener("click", legendClickCallback.bind(this, 1), false)
-    document.getElementById('angry-logo').addEventListener("click", legendClickCallback.bind(this, 1), false)
-    document.getElementById('disgust-name').addEventListener("click", legendClickCallback.bind(this, 2), false)
-    document.getElementById('disgust-logo').addEventListener("click", legendClickCallback.bind(this, 2), false)
-    document.getElementById('fear-name').addEventListener("click", legendClickCallback.bind(this, 3), false)
-    document.getElementById('fear-logo').addEventListener("click", legendClickCallback.bind(this, 3), false)
-    document.getElementById('sad-name').addEventListener("click", legendClickCallback.bind(this, 4), false)
-    document.getElementById('sad-logo').addEventListener("click", legendClickCallback.bind(this, 4), false)
-    document.getElementById('surprise-name').addEventListener("click", legendClickCallback.bind(this, 5), false)
-    document.getElementById('surprise-logo').addEventListener("click", legendClickCallback.bind(this, 5), false)
-    document.getElementById('neutral-name').addEventListener("click", legendClickCallback.bind(this, 6), false)
-    document.getElementById('neutral-logo').addEventListener("click", legendClickCallback.bind(this, 6), false)
+    document.getElementById('happy-name').addEventListener("click", legendClickCallback.bind(this, 0, 'happy-name'), false)
+    document.getElementById('happy-logo').addEventListener("click", legendClickCallback.bind(this, 0, 'happy-name'), false)
+    document.getElementById('angry-name').addEventListener("click", legendClickCallback.bind(this, 1, 'angry-name'), false)
+    document.getElementById('angry-logo').addEventListener("click", legendClickCallback.bind(this, 1, 'angry-name'), false)
+    document.getElementById('disgust-name').addEventListener("click", legendClickCallback.bind(this, 2, 'disgust-name'), false)
+    document.getElementById('disgust-logo').addEventListener("click", legendClickCallback.bind(this, 2, 'disgust-name'), false)
+    document.getElementById('fear-name').addEventListener("click", legendClickCallback.bind(this, 3, 'fear-name'), false)
+    document.getElementById('fear-logo').addEventListener("click", legendClickCallback.bind(this, 3, 'fear-name'), false)
+    document.getElementById('sad-name').addEventListener("click", legendClickCallback.bind(this, 4, 'sad-name'), false)
+    document.getElementById('sad-logo').addEventListener("click", legendClickCallback.bind(this, 4, 'sad-name'), false)
+    document.getElementById('surprise-name').addEventListener("click", legendClickCallback.bind(this, 5, 'surprise-name'), false)
+    document.getElementById('surprise-logo').addEventListener("click", legendClickCallback.bind(this, 5, 'surprise-name'), false)
+    document.getElementById('neutral-name').addEventListener("click", legendClickCallback.bind(this, 6, 'neutral-name'), false)
+    document.getElementById('neutral-logo').addEventListener("click", legendClickCallback.bind(this, 6, 'neutral-name'), false)
 
     let text = [];
     let emotions = [];
@@ -627,8 +627,7 @@
     dan = createChart('dan', 'Dan')
     conan = createChart('conan', 'Conan')
 
-    function legendClickCallback(legendItemIndex) {
-        console.log(legendItemIndex)
+    function legendClickCallback(legendItemIndex, name) {
         document.querySelectorAll('.emochart').forEach((chartItem, index) => {
             let chart = Chart.instances[index];
             let dataItem = chart.data.datasets[legendItemIndex]
@@ -639,11 +638,16 @@
             } else if (dataItem.hidden === true) {
                 dataItem.hidden = false
             }
+            if (dataItem.hidden) {
+                document.getElementById(name).style.textDecoration = 'line-through'
+            } else {
+                document.getElementById(name).style.textDecoration = 'none'
+            }
             chart.update();
         })
     }
 
-    function createChart(id, name, color) {
+    function createChart(id, name) {
         let ctx = document.getElementById(id).getContext('2d');
         return new Chart(ctx, {
             type: 'line',
